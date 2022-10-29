@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+
+  database:
+    container_name: database
+    ports:
+    - "3306:3306"
+    image: mysql/mysql-server:8.0
+    volumes:
+    - mysql:/var/lib/mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: "password"
+    networks:
+      - banking_network
+
+networks:
+  banking_network:
+    driver: bridge
+
+volumes:
+  mysql:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: ${HOME}/.docker-volumes/mysql/simple_bank
